@@ -14,5 +14,92 @@
 - What is f(xi) ? f(xi) -> w1x1 + w2x2 + b
 - n -> Number of rows in the data. 
 - In this case, Loss function is depend on the w1, w2 & b. 
-- 
 '''
+from sklearn.datasets import make_classification
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+# Making an Dataset. 
+X, y = make_classification(
+    n_samples=100,
+    n_features=2,
+    n_informative=1, 
+    n_redundant=0, 
+    n_classes=2, 
+    n_clusters_per_class=1,
+    random_state=41, 
+    hypercube=False, 
+    class_sep=15
+)
+
+# 
+print("Shape of Input Data: ")
+print(X.shape)
+
+print("Shape of output: ")
+print(y.shape)
+
+# Plotting an Dataset. 
+plt.figure(figsize=(10, 6))
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap="winter", s=100)
+plt.show()
+
+# Building an Loss function of the Perceptron. 
+def perceptron_loss_function(X, y):
+
+    # selecting the random values of w1, w2 and b. 
+    w1 = w2 = b = 1
+
+    # setting the learning rate of 0.1 
+    learning_rate = 0.1 
+
+    #
+    for j in range(1000):
+        for i in range(X.shape[0]):
+
+            # Checking an condition. 
+            z = w1 * X[i][0] + w2 * X[i][1] + b 
+
+            # 
+            if z * y[i]  < 0:
+                # Updating the values of w1, w2, & b. 
+                w1 = w1 + learning_rate * X[i][0]
+                w2 = w2 + learning_rate * X[i][1]
+                b = b + learning_rate * y[i]
+    
+    return w1, w2, b
+
+# 
+w1, w2, b = perceptron_loss_function(X, y)
+
+print("Values of w1, w2 and b.")
+print("W1 : ", w1)
+print("W2 : ", w2)
+print("b : ", b)
+
+# since the perceptron is just a line so the equation of line is y = mx + c. 
+# Now, calculating the values of m & c. 
+
+# m -> represent the slope here. 
+m = -(w1/w2)
+
+# c -> represent the intercept term here. 
+c = -(b/w2)
+
+# 
+print("\nDisplying the value of m & c: ")
+print("Value of m: ", m)
+print("Value of c: ", c)
+
+# making an inputs and output. 
+x_input = np.linspace(-3, 3, 100)
+y_input = m * x_input + c
+
+# 
+plt.figure(figsize=(10, 6))
+plt.plot(x_input, y_input, color="red", linewidth=3)
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap="winter", s=100)
+plt.ylim(-3, 2)
+plt.show()
