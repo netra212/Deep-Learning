@@ -77,3 +77,30 @@ y = -x + 1
 print(plt.plot(x, y))
 sns.scatterplot(x=and_data["Input1"], y=and_data["Input2"], hue=and_data["Output"], s=200)
 print(plt.show())
+
+
+# 
+print("Displaying the coefficient and intercept for the 2nd models: ")
+print(clf2.coef_)
+print(clf2.intercept_)
+
+# 
+x1=np.linspace(-1,1,5)
+y1=-x+0.5
+
+
+# Visualizing the model 2. 
+plt.plot(x1, y1)
+sns.scatterplot(x=or_data["Input1"], y=or_data["Input2"], hue=or_data["Output"], s=200)
+plt.show()
+
+
+# Calculating the coefficients and Intercept. 
+print("Displaying the coefficients and intercepts of the model 3: ")
+print(clf3.coef_)
+print(clf3.intercept_)
+
+
+# Visualizing the model 3 which shows that perceptron does not works on the non-linear datasets. 
+plot_decision_boundary(xor_data.iloc[:, 0:2].values, xor_data.iloc[:, -1].values, clf=clf3, legend=2)
+plt.show()
